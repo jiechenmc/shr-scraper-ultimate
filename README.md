@@ -1,3 +1,4 @@
 # shr-scraper-ultimate
-scraper for all of shr's data
-Original was written in Puppeteer but I'm a Playwright guy now
+AIM to scrape all of shr's Global Ranking data
+
+<p>Original was written in Puppeteer but I'm a Playwright guy now</p>
