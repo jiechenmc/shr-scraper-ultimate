@@ -6,7 +6,7 @@ const fs = require("fs");
   const tld = "https://www.shanghairanking.com";
   const browser = await webkit.launch();
   const page = await browser.newPage();
-  const year = 2018; // modify the year here!
+  const year = 2022; // modify the year here!
   await page.goto(`${tld}/rankings/gras/${year}`);
 
   // Mapping subjects to their path on the website
@@ -90,11 +90,13 @@ const fs = require("fs");
         }
       }
 
+      // output dir
+      const dir = `out/${year}`;
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
       for (const [university, data] of Object.entries(dataTable)) {
-        const dir = `out/${year}`;
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir, { recursive: true });
-        }
         let outFileName = `${dir}/${subject.replace("/", "_")}.tsv`;
         let string = `${data[0]}\t${university}\t${data[1]}\t${data[2]}\t${data[3]}\t${data[4]}\t${data[5]}\t${data[6]}\n`;
 
