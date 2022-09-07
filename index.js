@@ -6,7 +6,7 @@ const fs = require("fs");
   const tld = "https://www.shanghairanking.com";
   const browser = await webkit.launch();
   const page = await browser.newPage();
-  const year = 2022; // modify the year here!
+  const year = 2018; // modify the year here!
   await page.goto(`${tld}/rankings/gras/${year}`);
 
   // Mapping subjects to their path on the website
