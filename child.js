@@ -1,29 +1,18 @@
+
+
 const { webkit } = require("playwright");
 const fs = require("fs");
+console.log(process.pid)
 
-const scrape = async () => {
-  // Set up
-  const tld = "https://www.shanghairanking.com";
-  const browser = await webkit.launch();
-  const page = await browser.newPage();
-  const year = 2022; // modify the year here!
-  await page.goto(`${tld}/rankings/gras/${year}`);
+process.on("message", async message=>{
+  const {tld, path, subject, year} = message
+  await scrape(tld, path, subject, year)
+  process.exit(0)
+})
 
-  // Mapping subjects to their path on the website
-
-  let linkTable = {};
-  const spans = await page.locator("a:has(span)");
-  const count = await spans.count();
-
-  for (let i = 0; i < count - 1; ++i) {
-    const text = await spans.nth(i).innerText();
-    const link = await spans.nth(i).getAttribute("href");
-    linkTable[text] = link;
-  }
-
-  // scraping every subject
-
-  for (const [subject, path] of Object.entries(linkTable)) {
+async function scrape(tld, path, subject, year){
+    const browser = await webkit.launch();
+    const page = await browser.newPage();
     await page.goto(`${tld}${path}`);
 
     // All category data will be scraped before moving onto the next page
@@ -126,13 +115,6 @@ const scrape = async () => {
       await processPage();
       await page.click("#content-box > ul > li.ant-pagination-next");
     }
-  }
 
-  await browser.close();
-};
-
-
-const main = () =>{
+    await browser.close()
 }
-
-main()
